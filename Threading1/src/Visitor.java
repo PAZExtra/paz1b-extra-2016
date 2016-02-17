@@ -12,12 +12,6 @@ public class Visitor extends Thread {
 		while (true) {
 			int cislo = box.dajCislo();
 			System.out.println(cislo);
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	}
 	

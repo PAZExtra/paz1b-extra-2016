@@ -1,15 +1,19 @@
 
 public class TicketBox {
 
-	private int posledneCislo = 1; 
-	
+	private int posledneCislo = 1;
+
+	private final Object zamok = new Object();
+
 	public int dajCislo() {
-		posledneCislo++;
-		if (posledneCislo == 5) {
-			posledneCislo = 1;
+		synchronized (zamok) {
+			posledneCislo++;
+			if (posledneCislo >= 5) {
+				posledneCislo = 1;
+			}
+
+			return posledneCislo;
 		}
-		
-		return posledneCislo;
 	}
-	
+
 }
