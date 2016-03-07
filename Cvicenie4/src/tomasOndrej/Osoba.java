@@ -19,33 +19,26 @@ public class Osoba {
 		System.out.println(meno);
 	}
 
-	// Opravit
 	public int sirkaStromu(int u) {
 		int vysledok = 0;
 
-		for (Osoba dieta : deti) {
+		if (u == 0) 
+			return 1;
+			
+		for (Osoba dieta : deti) 		
 			vysledok += dieta.sirkaStromu(u - 1);
-			if (u == 0) {
-				return dieta.deti.size();
-
-			}
-		}
+		
 		return vysledok;
 
 	}
 
 	public int pocetGeneracii() {
-		int najGeneracia = 0;
-
+		int maxGeneracii = 0;
+		
 		for (Osoba dieta : deti)
-			if (dieta.pocetGeneracii() > najGeneracia)
-				najGeneracia = dieta.pocetGeneracii();
-
-		if (deti.size() > 0)
-			return najGeneracia + 1;
-		else
-			return 0;
-
+			maxGeneracii = Math.max(maxGeneracii, dieta.pocetGeneracii() + 1);
+		
+		return maxGeneracii;
 	}
 
 	public void pridajDoZoznamu(List<Osoba> zoznam) {
