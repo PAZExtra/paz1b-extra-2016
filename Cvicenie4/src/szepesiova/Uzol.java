@@ -105,13 +105,13 @@ public class Uzol {
 	}
 
 	public static Uzol stromZRetazca(String opisStromu) {
-		
-		
 
 		int pocitadlo = 0;
-		int stred = 0;
-		int index = 0;
-		int zpi = 0;
+		int koren = 0;
+		// index konca laveho
+		int a = 0;
+		// index konca praveho
+		int b = 0;
 		for (int i = 0; i < opisStromu.length(); i++) {
 			if (opisStromu.charAt(i) == '(')
 				pocitadlo++;
@@ -119,32 +119,51 @@ public class Uzol {
 				pocitadlo--;
 
 			if (pocitadlo == 0) {
-				index = i + 1;
+				a = i;
 
-			}
-			if ((pocitadlo == 0) && ((opisStromu.charAt(i) == '(')) || (i == opisStromu.length() - 1)) {
-				System.out.println(i);
-				System.out.println(index);
-				String a = opisStromu.substring(index, i);
-				System.out.println("tuuuuu" + a);
+				while ((i < opisStromu.length()) && (opisStromu.charAt(i) != '('))
+					i++;
 
-				stred = Integer.parseInt(a);
-				zpi = i;
+				b = i;
+				break;
+
 			}
 		}
-		String lavy = opisStromu.substring(0, index);
-		String pravy = opisStromu.substring(zpi, opisStromu.length());
 
-		Uzol vysledok = new Uzol(stred, stromZRetazca(lavy), stromZRetazca(pravy));
-		return vysledok;
+		if ((a == 0) && (b == opisStromu.length())) {
+			koren = Integer.parseInt(opisStromu);
+			return new Uzol(koren, null, null);
+		}
+
+		if (a == 0) {
+			String sKoren = opisStromu.substring(0, b).trim();
+			koren = Integer.parseInt(sKoren);
+			String pravy = opisStromu.substring(b + 1, opisStromu.length() - 1).trim();
+			return new Uzol(koren, null, stromZRetazca(pravy));
+		}
+
+		if (b == opisStromu.length()) {
+			String sKoren = opisStromu.substring(a + 1, opisStromu.length()).trim();
+			koren = Integer.parseInt(sKoren);
+			String lavy = opisStromu.substring(1, a).trim();
+			return new Uzol(koren, stromZRetazca(lavy), null);
+		}
+
+		String sKoren = opisStromu.substring(a + 1, b).trim();
+		koren = Integer.parseInt(sKoren);
+
+		String lavy = opisStromu.substring(1, a).trim();
+		String pravy = opisStromu.substring(b + 1, opisStromu.length() - 1).trim();
+		return new Uzol(koren, stromZRetazca(lavy), stromZRetazca(pravy));
+
 	}
 
 	public static void main(String[] args) {
-		Uzol koren = new Uzol(5, new Uzol(2, new Uzol(8, null, null), null), new Uzol(9, null, null));
-		koren.vypis();
-		System.out.println("Maximum je " + koren.maximum());
+		//Uzol koren = new Uzol(5, new Uzol(2, new Uzol(8, null, null), null), new Uzol(9, null, null));
+		//koren.vypis();
+		//System.out.println("Maximum je " + koren.maximum());
 
-		Uzol u = Uzol.stromZRetazca(" ((2) 7 ((5) 6 (11))) 2 (5 ((4) 9))");
+		Uzol u = Uzol.stromZRetazca("((2) 7 ((5) 6 (11))) 2 (5 ((4) 9))");
 		u.vypis();
 	}
 }
